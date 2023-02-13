@@ -1,14 +1,21 @@
-#include <unistd.h>
-#include <crypt.h>
+#include "crypt.h"
 
-char *crypt(const char *key, const char *salt)
+char *crypt_r(const char *key, const char *salt, char *output)
 {
-	/* This buffer is sufficiently large for all
-	 * currently-supported hash types. It needs to be updated if
-	 * longer hashes are added. The cast to struct crypt_data * is
-	 * purely to meet the public API requirements of the crypt_r
-	 * function; the implementation of crypt_r uses the object
-	 * purely as a char buffer. */
-	static char buf[128];
-	return __crypt_r(key, salt, (struct crypt_data *)buf);
+	/* Per the crypt_r API, the caller has provided a pointer to
+	 * struct crypt_data; however, this implementation does not
+	 * use the structure to store any internal state, and treats
+	 * it purely as a char buffer for storing the result. */
+	if (salt[0] == '$' && salt[1] && salt[2]) {
+		if (salt[1] == '1' && salt[2] == '$')
+			return __crypt_md5(key, salt, output);
+		if (salt[1] == '2' && salt[3] == '$')
+			return __crypt_blowfish(key, salt, output);
+		if (salt[1] == '5' && salt[2] == '$')
+			return __crypt_sha256(key, salt, output);
+		if (salt[1] == '6' && salt[2] == '$')
+			return __crypt_sha512(key, salt, output);
+	}
+	return __crypt_des(key, salt, output);
 }
+

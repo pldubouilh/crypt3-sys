@@ -1,1 +1,1 @@
-#include "./crypt256.h"
+#include "./crypt_musl/crypt.h"

@@ -1,27 +1,21 @@
-// #[link(name = "libcrypt256")]
-// extern "C" {
-//     pub fn crypt_sha256(phrase: *const libc::c_char, setting: *const libc::c_char, output: *const libc::c_char);
-// }
-
 use std::ffi::{CString, CStr};
 
-use  crypt3_sys::crypt_sha256;
 fn main() {
     let password = "mypassword";
     let sha256_setting = "$5$";
     let salt = "rDxsrps6AeTwJLRK";
     let settings = format!("{sha256_setting}{salt}");
 
-    let mut output = vec![0_i8; 64];
+    let mut output = vec![0_i8; 256];
 
     let ret_str = unsafe {
         // put phrase to cstring called ret
         let csetting = CString::new(settings).unwrap();
         let cpassword = CString::new(password).unwrap();
 
-        let ret = crypt_sha256(cpassword.as_ptr(), csetting.as_ptr(), output.as_mut_ptr());
+        let _ret = crypt3_sys::crypt_r(cpassword.as_ptr(), csetting.as_ptr(), output.as_mut_ptr());
 
-        let ret_cstr = CStr::from_ptr(ret);
+        let ret_cstr = CStr::from_ptr(output.as_ptr());
         ret_cstr.to_str().unwrap()
     };
 

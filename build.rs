@@ -3,16 +3,16 @@ extern crate bindgen;
 use std::env;
 use std::path::PathBuf;
 
-use bindgen::extra_assert;
-
 fn main() {
+    let files = ["crypt_musl/crypt_blowfish.c", "crypt_musl/crypt.c", "crypt_musl/crypt_des.c", "crypt_musl/crypt_md5.c", "crypt_musl/crypt_sha256.c", "crypt_musl/crypt_sha512.c", "crypt_musl/encrypt.c"];
+
     cc::Build::new()
-        .file("crypt256.c")
-        .compile("libcrypt256.a");
+        .cargo_metadata(true)
+        .warnings(false)
+        .files(files)
+        .file("crypt_musl/crypt.c")
+        .compile("libcrypt.a");
 
-    // println!("cargo:rustc-link-lib=libcrypt256");
-
-    println!("-l:libcrypt256.a");
     println!("cargo:rerun-if-changed=wrapper.h");
 
     let bindings = bindgen::Builder::default()
