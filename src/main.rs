@@ -1,4 +1,4 @@
-use std::ffi::{CString, CStr};
+use std::ffi::{CStr, CString};
 
 fn main() {
     let password = "mypassword";
@@ -9,7 +9,6 @@ fn main() {
     let mut output = vec![0_i8; 256];
 
     let ret_str = unsafe {
-        // put phrase to cstring called ret
         let csetting = CString::new(settings).unwrap();
         let cpassword = CString::new(password).unwrap();
 

@@ -1,7 +1,14 @@
 [package]
 name = "crypt3-sys"
+build = "build.rs"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "musl crypt3"
+homepage = "https://crates.io/crates/crypt3-sys"
+documentation = "https://docs.rs/crate/crypt3-sys/latest"
+repository = "https://github.com/pldubouilh/crypt3-sys"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

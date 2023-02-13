@@ -1,6 +1,8 @@
 # crypt3-sys
 
-basic bindings against locally pulled crypt from musl.
+statically linkable bindings against locally pulled crypt(3) from musl.
+
+[crate.io](https://crates.io/crates/crypt3-sys)
 
 ```rust
 use std::ffi::{CString, CStr};
@@ -14,7 +16,6 @@ fn main() {
     let mut output = vec![0_i8; 256];
 
     let ret_str = unsafe {
-        // put phrase to cstring called ret
         let csetting = CString::new(settings).unwrap();
         let cpassword = CString::new(password).unwrap();
 

@@ -4,7 +4,15 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-    let files = ["crypt_musl/crypt_blowfish.c", "crypt_musl/crypt.c", "crypt_musl/crypt_des.c", "crypt_musl/crypt_md5.c", "crypt_musl/crypt_sha256.c", "crypt_musl/crypt_sha512.c", "crypt_musl/encrypt.c"];
+    let files = [
+        "crypt_musl/crypt_blowfish.c",
+        "crypt_musl/crypt.c",
+        "crypt_musl/crypt_des.c",
+        "crypt_musl/crypt_md5.c",
+        "crypt_musl/crypt_sha256.c",
+        "crypt_musl/crypt_sha512.c",
+        "crypt_musl/encrypt.c",
+    ];
 
     cc::Build::new()
         .cargo_metadata(true)
